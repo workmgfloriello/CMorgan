@@ -2,7 +2,7 @@
 #define CMORGAN_BASEGATE_H
 
 #include <stdbool.h>
-#include <stddef.h>
+
 
 typedef struct {
     int power;
@@ -23,16 +23,17 @@ typedef struct CMGate {
 
     GateFunction execute;
 
-    struct CMGate *nextGate;
     int childCount;
+    int fatherCount;
 } CMGate;
+
 
 CMGate *CMGate_create(char *name, size_t input_size, CMWire *inputs, CMWire *outputs, GateFunction execute);
 
 bool CMGate_destroy(CMGate *gate);
-
 bool CMGate_execute(CMGate *gate);
 
-void CMGate_connect(CMGate *gateInp, CMWire *wireIn, CMGate *gateOut, CMWire *wireOut);
+bool checkGateInput(CMGate *gate, CMWire *wire);
+bool checkGateOutput(CMGate *gate, CMWire *wire);
 
 #endif

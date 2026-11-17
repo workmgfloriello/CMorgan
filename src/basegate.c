@@ -17,7 +17,7 @@ CMGate *CMGate_create(char *name, size_t input_count, CMWire *inputs, CMWire *ou
     gate->outputs = outputs;
     gate->execute = execute;
     gate->childCount = 0;
-    gate->nextGate = NULL;
+    gate->fatherCount = 0;
 
     bool result = addGate(gate);
 
@@ -42,11 +42,25 @@ bool CMGate_execute(CMGate *gate) {
     return executeGate(gate);
 }
 
-void CMGate_connect(CMGate *gateInp, CMWire *wireIn, CMGate *gateOut,CMWire *wireOut){
 
-    gateInp->nextGate = gateOut;
-    gateInp->childCount++;
-    //Controllo cavi DA FARE
-    wireOut->power = wireIn->power;
+bool checkGateInput(CMGate *gate, CMWire *wire) {
+    if (gate == NULL || wire == NULL) {
+        return false;
+    }
 
+    for (size_t i = 0; i < gate->input_count; i++) {
+        if (&gate->inputs[i] == wire) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool checkGateOutput(CMGate *gate, CMWire *wire) {
+    if (gate == NULL || wire == NULL) {
+        return false;
+    }
+
+    return &gate->outputs[0] == wire;
 }
