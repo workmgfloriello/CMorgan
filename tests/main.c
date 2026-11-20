@@ -19,5 +19,5 @@ int main(){
     CMGate_execute(and);
     CMGate_execute(or);
 
-    printf("RES: %d\n",or->outputs[0].power);
+    printf("RESULT: %d\n",or->outputs[0].power);
 }
